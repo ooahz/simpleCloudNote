@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.simplecloudnote.dao.MessageDao">
+
+    <resultMap id="messageMap" type="com.simplecloudnote.entity.Message">
+        <id column="id" property="id"/>
+        <result column="user_code" property="userCode"/>
+        <result column="message" property="message"/>
+        <result column="create_date" property="createDate"/>
+        <association property="user" javaType="com.simplecloudnote.entity.User">
+            <result column="user_code_b" property="userCode"/>
+            <result column="username" property="username"/>
+            <result column="avatar" property="avatar"/>
+        </association>
+    </resultMap>
+
+    <select id="findMessageList" resultMap="messageMap">
+        select m.id,m.user_code,m.message,m.create_date,u.user_code AS user_code_b,u.username,u.avatar
+        from message m,user u
+        <where>
+            m.user_code=u.user_code
+        </where>
+        ORDER BY m.create_date DESC;
+    </select>
+
+    <insert id="insertMessage">
+        insert into message
+        values (#{id}, #{userCode}, #{message}, #{createDate})
+    </insert>
+</mapper>

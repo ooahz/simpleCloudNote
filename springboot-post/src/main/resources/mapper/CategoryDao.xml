@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.simplecloudnote.dao.CategoryDao">
+    <sql id="categoryMapper">
+    id AS id,
+    name AS label,
+    parent_id AS parentId,
+    level AS level,
+    id AS value
+    </sql>
+    <select id="findCategoriesByParent" resultType="com.simplecloudnote.entity.Category">
+        select
+        <include refid="categoryMapper"></include>
+        from category
+        <where>
+            parent_id=#{parentId}
+        </where>
+    </select>
+
+    <select id="findCategoriesByLevel" resultType="com.simplecloudnote.entity.Category">
+        select
+        <include refid="categoryMapper"></include>
+        from category
+        <where>
+            level=#{level}
+        </where>
+    </select>
+
+    <select id="getCategoryById" resultType="com.simplecloudnote.entity.Category">
+        select
+        <include refid="categoryMapper"></include>
+        from category
+        <where>
+            id=#{id}
+        </where>
+    </select>
+
+    <insert id="insertCategory">
+        insert
+        into
+        category
+        values(
+        #{id},
+        #{label},
+        #{parentId},
+        #{level}
+        )
+    </insert>
+
+    <delete id="deleteCategoryById">
+        delete from category
+        <where>
+            id=#{id}
+        </where>
+    </delete>
+</mapper>

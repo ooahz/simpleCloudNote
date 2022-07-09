@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.simplecloudnote.dao.LogDao">
+	<sql id="logMapper">
+		id AS id,
+		    info AS info,
+		    user_code AS userCode,
+		    url AS url,
+		    date AS date
+	</sql>
+	<select id="findLogList" resultType="com.simplecloudnote.entity.Log">
+		select
+		    <include refid="logMapper"></include>
+		    from log
+	</select>
+
+	<insert id="save">
+		insert into log values(#{id},#{url},#{info},#{userCode},#{date})
+	</insert>
+
+</mapper>

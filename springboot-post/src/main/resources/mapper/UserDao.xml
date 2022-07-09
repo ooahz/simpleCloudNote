@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.simplecloudnote.dao.UserDao">
+    <sql id="userMapper">
+        user_code AS userCode,
+	    username AS username,
+	    id AS id,
+	    password AS password,
+        avatar AS avatar,
+        user_status AS userStatus,
+        salt AS salt,
+        user_mark AS userMark,
+        create_date AS createDate,
+        update_date AS updateDate
+    </sql>
+
+    <sql id="userListMapper">
+        user_code AS userCode,
+	    username AS username,
+	    id AS id,
+        avatar AS avatar,
+        user_status AS userStatus,
+        user_mark AS userMark,
+        create_date AS createDate,
+        update_date AS updateDate
+    </sql>
+
+    <select id="getUserByID" resultType="com.simplecloudnote.entity.User">
+        SELECT
+        <include refid="userMapper"/>
+        FROM user
+        <where>
+            id=#{id}
+        </where>
+    </select>
+
+    <select id="getUserByCode" resultType="com.simplecloudnote.entity.User">
+        SELECT
+        <include refid="userMapper"/>
+        FROM user
+        <where>
+            user_code=#{userCode}
+        </where>
+    </select>
+
+    <select id="findUserList" resultType="com.simplecloudnote.entity.User">
+        select
+        <include refid="userListMapper"></include>
+        from user
+    </select>
+
+    <insert id="insertUser">
+        insert into user values(#{id},#{userCode},#{username},#{password},#{avatar},#{createDate},#{updateDate},#{userStatus},#{salt},#{userMark})
+    </insert>
+
+    <update id="updateUser">
+        update user
+        set id=#{id},user_code=#{userCode},username=#{username},password=#{password},avatar=#{avatar},update_date=#{updateDate},user_status=#{userStatus},salt=#{salt},user_mark=#{userMark}
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+
+</mapper>
